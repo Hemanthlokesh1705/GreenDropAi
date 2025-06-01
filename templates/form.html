@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Feedback Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-gradient-to-r from-green-50 to-blue-50 min-h-screen py-12 px-4">
+    <div class="max-w-2xl mx-auto animate_animated animate_fadeIn">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-2xl">
+            <div class="bg-gradient-to-r from-green-400 to-blue-500 p-6">
+                <h1 class="text-3xl font-bold text-white text-center animate_animated animate_fadeInDown">
+                    Agricultural Feedback
+                </h1>
+                <p class="text-white text-opacity-90 text-center mt-2 animate_animated animatefadeIn animate_delay-1s">
+                    Share your farming experience with us
+                </p>
+            </div>
+            
+            <form class="p-6 space-y-6">
+                <!-- Name Field -->
+                <div class="space-y-2 animate_animated animatefadeInLeft animate_delay-1s">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="name" name="name" required 
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 transition duration-300"
+                           placeholder="Enter your full name">
+                </div>
+                
+                <!-- District Field -->
+                <div class="space-y-2 animate_animated animatefadeInRight animate_delay-1s">
+                    <label for="district" class="block text-sm font-medium text-gray-700">District <span class="text-red-500">*</span></label>
+                    <select id="district" name="district" required
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 transition duration-300">
+                        <option value="" disabled selected>Select your district</option>
+                        <option value="north">Northern District</option>
+                        <option value="south">Southern District</option>
+                        <option value="east">Eastern District</option>
+                        <option value="west">Western District</option>
+                        <option value="central">Central District</option>
+                    </select>
+                </div>
+                
+                <!-- Crops Field -->
+                <div class="space-y-2 animate_animated animatefadeInLeft animate_delay-2s">
+                    <label for="crops" class="block text-sm font-medium text-gray-700">Crops <span class="text-red-500">*</span></label>
+                    <div class="mt-1 grid grid-cols-2 md:grid-cols-3 gap-2">
+                        <div class="flex items-center">
+                            <input id="wheat" name="crops" type="checkbox" value="wheat" 
+                                   class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded transition duration-300">
+                            <label for="wheat" class="ml-2 block text-sm text-gray-700">Wheat</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="rice" name="crops" type="checkbox" value="rice" 
+                                   class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded transition duration-300">
+                            <label for="rice" class="ml-2 block text-sm text-gray-700">Rice</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="corn" name="crops" type="checkbox" value="corn" 
+                                   class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded transition duration-300">
+                            <label for="corn" class="ml-2 block text-sm text-gray-700">Corn</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="soybean" name="crops" type="checkbox" value="soybean" 
+                                   class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded transition duration-300">
+                            <label for="soybean" class="ml-2 block text-sm text-gray-700">Soybean</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="cotton" name="crops" type="checkbox" value="cotton" 
+                                   class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded transition duration-300">
+                            <label for="cotton" class="ml-2 block text-sm text-gray-700">Cotton</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="other" name="crops" type="checkbox" value="other" 
+                                   class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded transition duration-300">
+                            <label for="other" class="ml-2 block text-sm text-gray-700">Other</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Yield Field -->
+                <div class="space-y-2 animate_animated animatefadeInRight animate_delay-2s">
+                    <label for="yield" class="block text-sm font-medium text-gray-700">Yield (kg/hectare) <span class="text-red-500">*</span></label>
+                    <input type="number" id="yield" name="yield" required min="0" step="0.01"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 transition duration-300"
+                           placeholder="Enter yield amount">
+                </div>
+                
+                <!-- Description Field -->
+                <div class="space-y-2 animate_animated animatefadeInUp animate_delay-3s">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description <span class="text-red-500">*</span></label>
+                    <textarea id="description" name="description" rows="4" required
+                              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 transition duration-300"
+                              placeholder="Share details about your farming experience, challenges, and suggestions"></textarea>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="animate_animated animatefadeInUp animate_delay-4s">
+                    <button type="submit"
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform hover:scale-105 transition duration-300">
+                        Submit Feedback
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.querySelector("form").addEventListener("submit", async function (e) {
+            e.preventDefault(); // Prevent page reload
+        
+            // Collect form data
+            const name = document.getElementById("name").value;
+            const district = document.getElementById("district").value;
+            const yieldVal = document.getElementById("yield").value;
+            const description = document.getElementById("description").value;
+        
+            // Collect all checked crop values
+            const crops = Array.from(document.querySelectorAll("input[name='crops']:checked"))
+                               .map(el => el.value);
+        
+            // Send the data as JSON
+            const response = await fetch("/api/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
+                    district: district,
+                    yield: yieldVal,
+                    description: description,
+                    crops: crops
+                })
+            });
+        
+            if (response.ok) {
+                alert("Feedback submitted successfully!");
+                document.querySelector("form").reset();
+            } else {
+                alert("Failed to submit feedback. Please try again.");
+            }
+        });
+        </script>
+        
+</body>
+</html>

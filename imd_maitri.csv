@@ -1,0 +1,32 @@
+District,SoilType,Texture,pH,Crop_95%,Crop_90%,Crop_85%,Crop_80%,Crop_75%,Crop_70%,Crop_65%,Crop_60%,Crop_55%,Crop_50%
+Bagalkot,Black Cotton Soil,Clayey,7.5-8.5,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Ballari,Red Sandy Loam,Sandy Loam,6.5-7.5,Maize,Sunflower,Pigeon Pea,Chickpea,Sorghum,Groundnut,Cotton,Finger Millet,Soybean,Barley
+Belagavi,Black Soil,Clayey,7.0-8.0,Sugarcane,Cotton,Wheat,Maize,Sunflower,Sorghum,Chickpea,Soybean,Pigeon Pea,Groundnut
+Bengaluru Urban,Red Loamy Soil,Loamy,6.0-7.0,Ragi (Finger Millet),Tomato,Maize,Sunflower,Potato,Beans,Carrot,Chickpea,Onion,Groundnut
+Bengaluru Rural,Red Loamy Soil,Loamy,6.0-7.0,Ragi (Finger Millet),Tomato,Maize,Sunflower,Potato,Beans,Carrot,Chickpea,Onion,Groundnut
+Bidar,Black Cotton Soil,Clayey,7.5-8.5,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Chamarajanagar,Red Sandy Soil,Sandy,5.5-6.5,Ragi (Finger Millet),Groundnut,Turmeric,Maize,Coconut,Arecanut,Black Pepper,Chickpea,Soybean,Pigeon Pea
+Chikballapur,Red Loamy Soil,Loamy,6.0-7.0,Ragi (Finger Millet),Tomato,Maize,Sunflower,Potato,Beans,Carrot,Chickpea,Onion,Groundnut
+Chikkamagaluru,Red Lateritic Soil,Clay Loam,5.5-6.5,Coffee,Cardamom,Pepper,Arecanut,Rubber,Ginger,Turmeric,Coconut,Vanilla,Tea
+Chitradurga,Red Sandy Soil,Sandy,6.0-7.0,Sunflower,Maize,Pigeon Pea,Chickpea,Ragi,Groundnut,Sorghum,Cotton,Soybean,Barley
+Dakshina Kannada,Laterite Soil,Clayey,4.5-6.0,Coconut,Arecanut,Black Pepper,Cashew,Rubber,Cocoa,Vanilla,Ginger,Turmeric,Banana
+Davanagere,Black Cotton Soil,Clayey,7.0-8.0,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Dharwad,Black Soil,Clayey,7.0-8.0,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Gadag,Black Soil,Clayey,7.0-8.0,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Hassan,Red Loamy Soil,Loamy,6.0-7.0,Ragi (Finger Millet),Potato,Maize,Sunflower,Tomato,Beans,Carrot,Chickpea,Onion,Groundnut
+Haveri,Black Soil,Clayey,7.0-8.0,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Kalaburagi,Black Cotton Soil,Clayey,7.5-8.5,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Kodagu,Laterite Soil,Clay Loam,4.5-6.0,Coffee,Cardamom,Pepper,Arecanut,Ginger,Turmeric,Coconut,Vanilla,Orange,Tea
+Kolar,Red Loamy Soil,Loamy,6.0-7.0,Ragi (Finger Millet),Tomato,Maize,Sunflower,Potato,Beans,Carrot,Chickpea,Onion,Groundnut
+Koppal,Black Soil,Clayey,7.0-8.0,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Mandya,Red Sandy Loam,Sandy Loam,6.5-7.5,Sugarcane,Ragi (Finger Millet),Maize,Sunflower,Pigeon Pea,Chickpea,Sorghum,Groundnut,Cotton,Soybean
+Mysuru,Red Sandy Soil,Sandy,6.0-7.0,Ragi (Finger Millet),Sunflower,Maize,Pigeon Pea,Chickpea,Groundnut,Sorghum,Cotton,Soybean,Barley
+Raichur,Black Cotton Soil,Clayey,7.5-8.5,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Ramanagara,Red Loamy Soil,Loamy,6.0-7.0,Ragi (Finger Millet),Tomato,Maize,Sunflower,Potato,Beans,Carrot,Chickpea,Onion,Groundnut
+Shivamogga,Red Lateritic Soil,Clay Loam,5.5-6.5,Coffee,Arecanut,Pepper,Cardamom,Ragi,Ginger,Turmeric,Coconut,Vanilla,Tea
+Tumakuru,Red Sandy Soil,Sandy,6.0-7.0,Sunflower,Maize,Pigeon Pea,Chickpea,Ragi,Groundnut,Sorghum,Cotton,Soybean,Barley
+Udupi,Laterite Soil,Clayey,4.5-6.0,Coconut,Arecanut,Black Pepper,Cashew,Rubber,Cocoa,Vanilla,Ginger,Turmeric,Banana
+Uttara Kannada,Laterite Soil,Clayey,4.5-6.0,Coconut,Arecanut,Black Pepper,Cashew,Rubber,Cocoa,Vanilla,Ginger,Turmeric,Banana
+Vijayapura,Black Cotton Soil,Clayey,7.5-8.5,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut
+Vijayanagara,Red Sandy Soil,Sandy,6.0-7.0,Sunflower,Maize,Pigeon Pea,Chickpea,Ragi,Groundnut,Sorghum,Cotton,Soybean,Barley
+Yadgir,Black Cotton Soil,Clayey,7.5-8.5,Cotton,Sorghum,Sugarcane,Sunflower,Wheat,Maize,Pigeon Pea,Chickpea,Soybean,Groundnut

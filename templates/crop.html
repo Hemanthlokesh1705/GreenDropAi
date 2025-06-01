@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Recommendations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+       :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #81c784;
+            --accent-color: #1b5e20;
+            --light-green: #e8f5e9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding-top: 56px;
+            margin: 0;
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: 70px;
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 60%);
+            z-index: 1;
+        }
+        
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .crop-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .crop-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            border-radius: 5px;
+        }
+        
+        .search-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .soil-info {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .results-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .error-message {
+            display: none;
+            color: #dc3545;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .suggestion {
+            background-color: #e9ecef;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .suggestion:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .search-input-group {
+            position: relative;
+        }
+        
+        .search-input-group .form-control {
+            padding-left: 45px;
+            height: 50px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            border: 1px solid #ced4da;
+        }
+        
+        .search-input-group .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 12px;
+            color: #6c757d;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+        
+        .btn-success {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 25px;
+            height: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .btn-success:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(46, 125, 50, 0.4);
+        }
+        
+        .back-button {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .back-button:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+            transform: translateX(-5px);
+        }
+        
+        .soil-card {
+            background: linear-gradient(135deg, white 0%, var(--light-green) 100%);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .soil-card .card-title {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .soil-card .card-text {
+            font-size: 1.3rem;
+            margin-top: 5px;
+        }
+        
+        .soil-card .icon {
+            color: var(--secondary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .stats-row {
+            margin-bottom: 25px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-bottom: 25px;
+        }
+        
+        .crop-card .success-rate {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .spinner-border {
+            color: var(--primary-color);
+            width: 3rem;
+            height: 3rem;
+        }
+
+        /* New styles for crop selection dropdown and single card display */
+        .crop-select-container {
+            margin-bottom: 25px;
+        }
+
+        .crop-select {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid #ced4da;
+            font-size: 1.1rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 1em;
+        }
+
+        .crop-select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(129, 199, 132, 0.25);
+        }
+
+        .selected-crop-container {
+            display: none;
+            margin-bottom: 25px;
+        }
+
+        .selected-crop-card {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .search-input-group .form-control,
+            .btn-success {
+                height: 45px;
+                font-size: 1rem;
+            }
+            
+            .search-input-group .search-icon {
+                top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-seedling me-1"></i>GreenDropAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-arrow-left me-2"></i> Back to Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header text-center">
+            <h1><i class="fas fa-leaf me-2"></i>Crop Recommendation System</h1>
+            <p class="lead">Get intelligent crop suggestions based on location and soil data</p>
+        </div>
+        
+        <div class="search-section">
+            <h3 class="mb-4">Find Optimal Crops for Your Region</h3>
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <div class="search-input-group">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="cityInput" class="form-control" placeholder="Enter your city name">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button id="searchBtn" class="btn btn-success w-100">
+                        <i class="fas fa-seedling me-2"></i>Get Recommendations
+                    </button>
+                </div>
+            </div>
+            <div class="error-message" id="errorMsg">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <p class="mb-2">City not found. Did you mean one of these?</p>
+                <div class="suggestions" id="suggestionsList"></div>
+            </div>
+        </div>
+        
+        <!-- Loading spinner -->
+        <div id="loader" class="loader">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Analyzing soil and climate data...</p>
+        </div>
+        
+        <div class="results-section" id="resultsSection">
+            <div class="soil-info">
+                <h3 id="cityName" class="mb-4">City Name</h3>
+                
+                <div class="row row-cols-1 row-cols-md-3 g-4 stats-row">
+                    <div class="col">
+                        <div class="card soil-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-mountain icon"></i>
+                                <h5 class="card-title">SOIL TYPE</h5>
+                                <p class="card-text fw-bold" id="soilType">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card soil-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-water icon"></i>
+                                <h5 class="card-title">TEXTURE</h5>
+                                <p class="card-text fw-bold" id="texture">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card soil-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-flask icon"></i>
+                                <h5 class="card-title">pH LEVEL</h5>
+                                <p class="card-text fw-bold" id="phLevel">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="successRateChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Crop selection dropdown -->
+            <div class="crop-select-container" id="cropSelectContainer" style="display: none;">
+                <h3 class="mb-4"><i class="fas fa-chart-line me-2"></i>Select a Crop for Details</h3>
+                <select class="crop-select" id="cropSelect">
+                    <option value="">-- Select a Crop --</option>
+                    <!-- Options will be added by JavaScript -->
+                </select>
+            </div>
+            
+            <!-- Selected crop card -->
+            <div class="selected-crop-container" id="selectedCropContainer">
+                <div class="card crop-card selected-crop-card">
+                    <div class="card-body">
+                        <span class="success-rate" id="selectedCropRate">0%</span>
+                        <h5 class="card-title mb-3" id="selectedCropName">Crop Name</h5>
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div class="progress-bar" role="progressbar" id="selectedCropProgress" 
+                                style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <p class="card-text text-muted" id="selectedCropText">
+                            <i class="fas fa-check-circle me-1 text-success"></i> 
+                            Select a crop to see recommendation
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cityInput = document.getElementById('cityInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            const suggestionsList = document.getElementById('suggestionsList');
+            const resultsSection = document.getElementById('resultsSection');
+            const loader = document.getElementById('loader');
+            const cityName = document.getElementById('cityName');
+            const soilType = document.getElementById('soilType');
+            const texture = document.getElementById('texture');
+            const phLevel = document.getElementById('phLevel');
+            const cropSelectContainer = document.getElementById('cropSelectContainer');
+            const cropSelect = document.getElementById('cropSelect');
+            const selectedCropContainer = document.getElementById('selectedCropContainer');
+            const selectedCropName = document.getElementById('selectedCropName');
+            const selectedCropRate = document.getElementById('selectedCropRate');
+            const selectedCropProgress = document.getElementById('selectedCropProgress');
+            const selectedCropText = document.getElementById('selectedCropText');
+            
+            let successRateChart = null;
+            let currentRecommendations = [];
+            
+            // Check URL parameters for city
+            const urlParams = new URLSearchParams(window.location.search);
+            const cityParam = urlParams.get('city');
+            
+            // Also check localStorage as a backup
+            const storedCity = localStorage.getItem('selectedCity');
+            
+            // Use the city parameter if available, otherwise use stored city
+            if (cityParam) {
+                cityInput.value = cityParam;
+                // Automatically trigger search
+                searchCity(cityParam);
+            } else if (storedCity) {
+                cityInput.value = storedCity;
+                // Automatically trigger search
+                searchCity(storedCity);
+            }
+
+            // Search button click handler
+            searchBtn.addEventListener('click', function() {
+                const city = cityInput.value.trim();
+                if (city) {
+                    searchCity(city);
+                }
+            });
+            
+            // Enter key handler
+            cityInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const city = cityInput.value.trim();
+                    if (city) {
+                        searchCity(city);
+                    }
+                }
+            });
+
+            // Crop selection change handler
+            cropSelect.addEventListener('change', function() {
+                const selectedCrop = this.value;
+                if (selectedCrop) {
+                    const cropData = currentRecommendations.find(crop => crop.crop === selectedCrop);
+                    if (cropData) {
+                        displaySelectedCrop(cropData);
+                    }
+                } else {
+                    selectedCropContainer.style.display = 'none';
+                }
+            });
+            
+            // Function to search for city data
+            function searchCity(city) {
+                // Show loading state
+                resultsSection.style.display = 'none';
+                errorMsg.style.display = 'none';
+                loader.style.display = 'block';
+                cropSelectContainer.style.display = 'none';
+                selectedCropContainer.style.display = 'none';
+                
+                // Store city in localStorage for persistence
+                localStorage.setItem('selectedCity', city);
+                
+                // Simulate API call with setTimeout (replace with actual fetch when API is ready)
+                setTimeout(() => {
+                    fetch(`/api/recommend?city=${encodeURIComponent(city)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            loader.style.display = 'none';
+                            
+                            if (data.error) {
+                                // Show error and suggestions
+                                errorMsg.style.display = 'block';
+                                suggestionsList.innerHTML = '';
+                                
+                                if (data.suggestions && data.suggestions.length > 0) {
+                                    data.suggestions.forEach(suggestion => {
+                                        const suggestionEl = document.createElement('span');
+                                        suggestionEl.className = 'suggestion';
+                                        suggestionEl.textContent = suggestion;
+                                        suggestionEl.addEventListener('click', function() {
+                                            cityInput.value = suggestion;
+                                            searchCity(suggestion);
+                                        });
+                                        suggestionsList.appendChild(suggestionEl);
+                                    });
+                                } else {
+                                    suggestionsList.innerHTML = '<p>No similar cities found.</p>';
+                                }
+                            } else {
+                                // Display results
+                                displayResults(data);
+                            }
+                        })
+                        .catch(error => {
+                            loader.style.display = 'none';
+                            console.error('Error fetching data:', error);
+                            errorMsg.style.display = 'block';
+                            suggestionsList.innerHTML = '<p>An error occurred. Please try again.</p>';
+                        });
+                }, 1000); // Simulate network delay for demo purposes
+            }
+            
+            // Function to display results
+            function displayResults(data) {
+                // Update city info
+                cityName.textContent = data.city;
+                soilType.textContent = data.soil_type;
+                texture.textContent = data.texture;
+                phLevel.textContent = data.ph;
+                
+                // Store recommendations for later use
+                currentRecommendations = data.recommendations;
+                
+                // Sort recommendations by success rate
+                const sortedRecs = data.recommendations.sort((a, b) => b.success_rate - a.success_rate);
+                
+                // Populate crop dropdown (without percentages)
+                cropSelect.innerHTML = '<option value="">-- Select a Crop --</option>';
+                sortedRecs.forEach(rec => {
+                    const option = document.createElement('option');
+                    option.value = rec.crop;
+                    option.textContent = rec.crop;  // Removed the percentage display here
+                    cropSelect.appendChild(option);
+                });
+                
+                // Create or update chart
+                createSuccessRateChart(sortedRecs.slice(0, 5));
+                
+                // Show results section and crop selection
+                resultsSection.style.display = 'block';
+                cropSelectContainer.style.display = 'block';
+                
+                // Update URL with city parameter without reloading the page
+                const url = new URL(window.location);
+                url.searchParams.set('city', data.city);
+                window.history.pushState({}, '', url);
+            }
+            
+            // Function to display selected crop
+            function displaySelectedCrop(cropData) {
+                selectedCropName.textContent = cropData.crop;
+                selectedCropRate.textContent = `${cropData.success_rate}%`;
+                selectedCropProgress.style.width = `${cropData.success_rate}%`;
+                selectedCropProgress.setAttribute('aria-valuenow', cropData.success_rate);
+                selectedCropText.innerHTML = `<i class="fas fa-check-circle me-1 text-success"></i> ${getRecommendationText(cropData.success_rate)}`;
+                
+                selectedCropContainer.style.display = 'block';
+            }
+            
+            // Function to create success rate chart
+            function createSuccessRateChart(crops) {
+                const ctx = document.getElementById('successRateChart').getContext('2d');
+                
+                // Destroy previous chart instance if it exists
+                if (successRateChart) {
+                    successRateChart.destroy();
+                }
+                
+                // Create chart data from crops
+                const labels = crops.map(crop => crop.crop);
+                const data = crops.map(crop => crop.success_rate);
+                const colors = [
+                    'rgba(46, 125, 50, 0.8)',
+                    'rgba(67, 160, 71, 0.8)',
+                    'rgba(102, 187, 106, 0.8)',
+                    'rgba(129, 199, 132, 0.8)',
+                    'rgba(165, 214, 167, 0.8)'
+                ];
+                
+                successRateChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Success Rate (%)',
+                            data: data,
+                            backgroundColor: colors,
+                            borderColor: colors.map(color => color.replace('0.8', '1')),
+                            borderWidth: 1,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Top 5 Crop Success Rates',
+                                font: {
+                                    size: 16
+                                },
+                                color: '#333',
+                                padding: {
+                                    top: 10,
+                                    bottom: 20
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        animation: {
+                            duration: 1500
+                        }
+                    }
+                });
+            }
+            
+            // Function to get recommendation text based on success rate
+            function getRecommendationText(rate) {
+                if (rate >= 90) return "Excellent choice for this region";
+                if (rate >= 75) return "Very suitable for this location";
+                if (rate >= 60) return "Good option with proper care";
+                if (rate >= 45) return "May require extra attention";
+                return "Challenging but possible";
+            }
+
+            // For demo purposes - simulate API data
+            // Remove this block when actual API is implemented
+           
+        });
+    </script>
+</body>
+</html>

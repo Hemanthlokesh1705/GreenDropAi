@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karnataka Farmers Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            800: '#1E293B',
+                            900: '#0F172A',
+                        },
+                        primary: {
+                            DEFAULT: '#10B981',
+                            dark: '#059669'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark-900 text-gray-200 min-h-screen py-12 px-4">
+    <div class="max-w-4xl mx-auto animate_animated animate_fadeIn">
+        <div class="bg-dark-800 rounded-xl shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl border border-gray-700">
+            <div class="bg-gradient-to-r from-primary-DEFAULT to-blue-500 p-6">
+                <h1 class="text-3xl font-bold text-white text-center animate_animated animate_fadeInDown">
+                    CURATED BLOGS
+                </h1>
+                <p class="text-white text-opacity-90 text-center mt-2 animate_animated animatefadeIn animate_delay-1s">
+                    WANT TO KNOW MORE ABOUT SUCCESSFUL FARMERS
+                </p>
+            </div>
+            
+            <!-- Filter Section -->
+            <div class="p-6 space-y-6 border-b border-gray-700">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- District Filter -->
+                    <div class="space-y-2 animate_animated animatefadeInLeft animate_delay-1s">
+                        <label for="districtFilter" class="block text-sm font-medium text-gray-300">District</label>
+                        <select id="districtFilter" class="mt-1 block w-full px-4 py-2 bg-dark-800 border border-gray-600 rounded-md shadow-sm focus:ring-primary-DEFAULT focus:border-primary-DEFAULT transition duration-300 text-gray-200">
+                            <option value="">All Districts</option>
+                            <option value="Bangalore">Bangalore Rural</option>
+                            <option value="Mandya">Mandya</option>
+                            <option value="Belagavi">Belagavi</option>
+                            <option value="Shivamogga">Shivamogga</option>
+                            <option value="Vijayapura">Vijayapura</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Crop Filter -->
+                    <div class="space-y-2 animate_animated animatefadeInRight animate_delay-1s">
+                        <label for="cropFilter" class="block text-sm font-medium text-gray-300">Crop</label>
+                        <select id="cropFilter" class="mt-1 block w-full px-4 py-2 bg-dark-800 border border-gray-600 rounded-md shadow-sm focus:ring-primary-DEFAULT focus:border-primary-DEFAULT transition duration-300 text-gray-200">
+                            <option value="">All Crops</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Sugarcane">Sugarcane</option>
+                            <option value="Jowar">Jowar</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Search -->
+                    <div class="space-y-2 animate_animated animatefadeInLeft animate_delay-2s">
+                        <label for="search" class="block text-sm font-medium text-gray-300">Search</label>
+                        <div class="relative">
+                            <input type="text" id="search" placeholder="Search farmers..." 
+                                   class="mt-1 block w-full px-4 py-2 pl-10 bg-dark-800 border border-gray-600 rounded-md shadow-sm focus:ring-primary-DEFAULT focus:border-primary-DEFAULT transition duration-300 text-gray-200">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Blog Posts Grid -->
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Blog 1 - Bangalore Rice Farmer -->
+                <div class="space-y-4 p-4 bg-dark-700 rounded-lg border border-gray-600 animate_animated animatefadeInUp animate_delay-3s hover:border-primary-DEFAULT transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-primary-DEFAULT/20 text-primary-DEFAULT text-xs px-2 py-1 rounded">Bangalore Rural</span>
+                        <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-1 rounded">Rice</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-100">Gopal Rao - The Rice Innovator</h3>
+                    <p class="text-gray-400">Gopal Rao from Hoskote transformed his 8-acre rice farm using SRI (System of Rice Intensification) methods. By adopting alternate wetting and drying techniques, he reduced water usage by 30% while increasing yield from 4 to 6.5 tons per acre...</p>
+                    <div class="flex justify-between items-center pt-2">
+                        <span class="text-xs text-gray-500">Est. Annual Yield: 52 tons</span>
+                        <button onclick="openStory('story1')" class="text-primary-DEFAULT text-sm font-medium hover:underline focus:outline-none">
+                            Read Full Story <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Blog 2 - Mandya Sugarcane Farmer -->
+                <div class="space-y-4 p-4 bg-dark-700 rounded-lg border border-gray-600 animate_animated animatefadeInUp animate_delay-4s hover:border-primary-DEFAULT transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-primary-DEFAULT/20 text-primary-DEFAULT text-xs px-2 py-1 rounded">Mandya</span>
+                        <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-1 rounded">Sugarcane</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-100">Lakshmamma - Sugarcane Queen</h3>
+                    <p class="text-gray-400">Lakshmamma from Srirangapatna revolutionized sugarcane farming by intercropping with pulses. Her 12-acre farm now produces 120 tons of sugarcane annually with additional income from black gram. She pioneered drip irrigation in her village...</p>
+                    <div class="flex justify-between items-center pt-2">
+                        <span class="text-xs text-gray-500">Est. Annual Yield: 120 tons</span>
+                        <button onclick="openStory('story2')" class="text-primary-DEFAULT text-sm font-medium hover:underline focus:outline-none">
+                            Read Full Story <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Blog 3 - Belagavi Jowar Farmer -->
+                <div class="space-y-4 p-4 bg-dark-700 rounded-lg border border-gray-600 animate_animated animatefadeInUp animate_delay-5s hover:border-primary-DEFAULT transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-primary-DEFAULT/20 text-primary-DEFAULT text-xs px-2 py-1 rounded">Belagavi</span>
+                        <span class="bg-blue-500/20 text-blue-400 text-xs px-2 py-1 rounded">Jowar</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-100">Siddappa - Jowar Revivalist</h3>
+                    <p class="text-gray-400">Siddappa from Bailhongal brought back traditional jowar cultivation on his 15-acre drought-prone land. By reviving native 'Maldandi' varieties and implementing soil moisture conservation techniques, he achieves consistent yields of 3.2 tons per acre...</p>
+                    <div class="flex justify-between items-center pt-2">
+                        <span class="text-xs text-gray-500">Est. Annual Yield: 48 tons</span>
+                        <button onclick="openStory('story3')" class="text-primary-DEFAULT text-sm font-medium hover:underline focus:outline-none">
+                            Read Full Story <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add New Blog Button -->
+            <div class="p-6 pt-0 animate_animated animatefadeInUp animate_delay-6s">
+                <button id="addBlogBtn"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-DEFAULT hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-DEFAULT transform hover:scale-[1.02] transition duration-300">
+                    <i class="fas fa-plus mr-2"></i> Add New Farmer Story
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Story Modals -->
+    <div id="story1" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-dark-800 rounded-xl shadow-lg overflow-hidden w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-700 animate_animated animate_fadeIn">
+            <div class="bg-gradient-to-r from-primary-DEFAULT to-blue-500 p-6 sticky top-0">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-white">Gopal Rao - Rice Innovator</h2>
+                    <button onclick="closeStory('story1')" class="text-white hover:text-gray-200 focus:outline-none">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="flex space-x-3 mt-2">
+                    <span class="bg-white/20 text-white text-xs px-2 py-1 rounded">Bangalore Rural</span>
+                    <span class="bg-blue-300/20 text-blue-100 text-xs px-2 py-1 rounded">Rice</span>
+                </div>
+            </div>
+            
+            <div class="p-6 space-y-4">
+                <div class="aspect-w-16 aspect-h-9 bg-dark-700 rounded-lg overflow-hidden">
+                    <div class="w-full h-48 bg-gradient-to-r from-green-900 to-blue-900 flex items-center justify-center">
+                        <i class="fas fa-tractor text-6xl text-primary-DEFAULT/30"></i>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-dark-700 p-4 rounded-lg">
+                        <h3 class="font-semibold text-primary-DEFAULT mb-2">Key Achievements</h3>
+                        <ul class="list-disc list-inside text-gray-300 space-y-1">
+                            <li>Increased yield from 4 to 6.5 tons per acre</li>
+                            <li>Reduced water usage by 30% with SRI methods</li>
+                            <li>Trained 50+ farmers in sustainable practices</li>
+                            <li>Established organic rice brand "Hoskote Harvests"</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="text-gray-300">Gopal Rao, a 52-year-old farmer from Hoskote taluk, transformed his 8-acre rice farm through innovative System of Rice Intensification (SRI) techniques. Frustrated with declining yields and increasing input costs, Gopal attended a Krishi Vigyan Kendra workshop in 2018 that changed his approach to farming.</p>
+                    
+                    <p class="text-gray-300">His implementation of alternate wetting and drying (AWD) irrigation reduced water consumption by 30% while maintaining soil health. By switching to organic fertilizers and adopting precise planting techniques (25x25cm spacing), Gopal achieved a remarkable yield increase from 4 to 6.5 tons per acre.</p>
+                    
+                    <p class="text-gray-300">Recognizing his success, the state agriculture department featured Gopal in their "Model Farmers" program. He now hosts monthly field demonstrations and has helped establish a farmers' collective that markets organic rice directly to Bengaluru consumers, fetching 25% higher prices than conventional rice.</p>
+                    
+                    <div class="bg-dark-700 p-4 rounded-lg">
+                        <h3 class="font-semibold text-primary-DEFAULT mb-2">Farming Techniques</h3>
+                        <ul class="list-disc list-inside text-gray-300 space-y-1">
+                            <li>System of Rice Intensification (SRI)</li>
+                            <li>Alternate wetting and drying irrigation</li>
+                            <li>Organic nutrient management</li>
+                            <li>Precision planting (25x25cm spacing)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Blog Modal -->
+    <div id="addBlogModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
+        <div class="bg-dark-800 rounded-xl shadow-lg overflow-hidden w-full max-w-2xl mx-4 border border-gray-700 animate_animated animate_fadeIn">
+            <div class="bg-gradient-to-r from-primary-DEFAULT to-blue-500 p-6">
+                <h2 class="text-2xl font-bold text-white text-center">Share a Farmer's Success Story</h2>
+            </div>
+            
+            <form id="blogForm" class="p-6 space-y-6">
+                <!-- Form fields same as before -->
+                <div class="space-y-2 animate_animated animate_fadeInLeft">
+                    <label for="farmerName" class="block text-sm font-medium text-gray-300">Farmer Name *</label>
+                    <input type="text" id="farmerName" required 
+                           class="mt-1 block w-full px-4 py-2 bg-dark-700 border border-gray-600 rounded-md shadow-sm focus:ring-primary-DEFAULT focus:border-primary-DEFAULT transition duration-300 text-gray-200"
+                           placeholder="Enter farmer's full name">
+                </div>
+                
+                <div class="space-y-2 animate_animated animate_fadeInRight">
+                    <label for="blogDistrict" class="block text-sm font-medium text-gray-300">District *</label>
+                    <select id="blogDistrict" required
+                            class="mt-1 block w-full px-4 py-2 bg-dark-700 border border-gray-600 rounded-md shadow-sm focus:ring-primary-DEFAULT focus:border-primary-DEFAULT transition duration-300 text-gray-200">
+                        <option value="" disabled selected>Select district</option>
+                        <option value="Bangalore">Bangalore Rural</option>
+                        <option value="Mandya">Mandya</option>
+                        <option value="Belagavi">Belagavi</option>
+                    </select>
+                </div>
+                
+                <div class="space-y-2 animate_animated animate_fadeInLeft">
+                    <label class="block text-sm font-medium text-gray-300">Primary Crop *</label>
+                    <div class="mt-1 grid grid-cols-3 gap-2">
+                        <div class="flex items-center">
+                            <input id="cropRice" name="crops" type="radio" value="Rice" 
+                                   class="h-4 w-4 text-primary-DEFAULT focus:ring-primary-DEFAULT border-gray-600 bg-dark-700 transition duration-300">
+                            <label for="cropRice" class="ml-2 block text-sm text-gray-300">Rice</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="cropSugarcane" name="crops" type="radio" value="Sugarcane" 
+                                   class="h-4 w-4 text-primary-DEFAULT focus:ring-primary-DEFAULT border-gray-600 bg-dark-700 transition duration-300">
+                            <label for="cropSugarcane" class="ml-2 block text-sm text-gray-300">Sugarcane</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="cropJowar" name="crops" type="radio" value="Jowar" 
+                                   class="h-4 w-4 text-primary-DEFAULT focus:ring-primary-DEFAULT border-gray-600 bg-dark-700 transition duration-300">
+                            <label for="cropJowar" class="ml-2 block text-sm text-gray-300">Jowar</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2 animate_animated animate_fadeInRight">
+                    <label for="successStory" class="block text-sm font-medium text-gray-300">Success Story *</label>
+                    <textarea id="successStory" rows="6" required
+                              class="mt-1 block w-full px-4 py-2 bg-dark-700 border border-gray-600 rounded-md shadow-sm focus:ring-primary-DEFAULT focus:border-primary-DEFAULT transition duration-300 text-gray-200"
+                              placeholder="Describe the farmer's innovative practices, achievements, and impact (minimum 50 words)"></textarea>
+                </div>
+                
+                <div class="animate_animated animate_fadeInUp">
+                    <button type="submit"
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-DEFAULT hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-DEFAULT transform hover:scale-[1.02] transition duration-300">
+                        Publish Success Story
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Story Modal Functions
+        function openStory(storyId) {
+            document.getElementById(storyId).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeStory(storyId) {
+            document.getElementById(storyId).classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modals when clicking outside
+        document.querySelectorAll('[id^="story"]').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeStory(this.id);
+                }
+            });
+        });
+        
+        // Add Blog Modal
+        const addBlogBtn = document.getElementById('addBlogBtn');
+        const addBlogModal = document.getElementById('addBlogModal');
+        
+        addBlogBtn.addEventListener('click', () => {
+            addBlogModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        addBlogModal.addEventListener('click', (e) => {
+            if (e.target === addBlogModal) {
+                addBlogModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Form submission
+        const blogForm = document.getElementById('blogForm');
+        blogForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('story submitted! successfully.');
+            addBlogModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            blogForm.reset();
+        });
+        
+        // Filter functionality
+        const districtFilter = document.getElementById('districtFilter');
+        const cropFilter = document.getElementById('cropFilter');
+        const searchInput = document.getElementById('search');
+        
+        [districtFilter, cropFilter].forEach(element => {
+            element.addEventListener('change', filterBlogs);
+        });
+        searchInput.addEventListener('input', filterBlogs);
+        
+        function filterBlogs() {
+            console.log('Filtering by:', {
+                district: districtFilter.value,
+                crop: cropFilter.value,
+                search: searchInput.value
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenDropAI | Smart Agricultural Advisory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --primary-light: #d5f5e3;
+            --secondary: #f39c12;
+            --accent: #3498db;
+            --dark: #1e3c2a;
+            --light: #f8f9fa;
+            --text: #2d3748;
+            --text-light: #718096;
+            --danger: #e74c3c;
+            --warning: #f1c40f;
+            --gradient: linear-gradient(135deg, #2ecc71 0%, #3498db 100%);
+            --gradient-dark: linear-gradient(135deg, #27ae60 0%, #2980b9 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            background-color: white;
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(46, 204, 113, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.4s ease;
+        }
+        
+        .header.scrolled {
+            padding: 0.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            border-radius: 3px;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            background-size: 200% auto;
+        }
+        
+        .btn-primary:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 8rem 2rem 6rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .floating-agri-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+            filter: brightness(0) invert(1);
+            animation: floatElement 20s infinite linear;
+        }
+        
+        @keyframes floatElement {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Animated Underline */
+        .animated-underline {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .animated-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        
+        .animated-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            display: block;
+        }
+        
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            opacity:.7;
+            transform: translateY(30px);
+        }
+        
+        .section-header p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.5;
+            transform: translateY(30px);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            color: white;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-card:hover h3,
+        .feature-card:hover p,
+        .feature-card:hover .feature-icon {
+            color: white;
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-light);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2rem;
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        
+        /* Dashboard Section */
+        .dashboard {
+            background: #f8fafc;
+            padding: 8rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30 50a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm20 0a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm20 0a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" fill="%232ecc71" opacity="0.1"/></svg>');
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .dashboard-text h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .dashboard-text p {
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .dashboard-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease;
+        }
+        
+        .dashboard-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .dashboard-image:hover {
+            transform: translateX(50px) scale(1.02);
+        }
+        
+        .dashboard-image:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Data Section */
+        .data-section {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .data-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .data-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .data-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .data-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .data-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .data-card h3 {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .data-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .data-change {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .data-change i {
+            margin-right: 0.5rem;
+        }
+        
+        .data-change.positive {
+            color: var(--primary);
+        }
+        
+        .data-change.negative {
+            color: var(--danger);
+        }
+        
+        .chart-container {
+            height: 500px;
+            margin: 3rem 0;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+        
+        .chart-container:hover {
+            transform: translateY(50px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .chart-tabs {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 50px;
+            padding: 5px;
+        }
+        
+        .chart-tab {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .chart-tab.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        /* Tool Cards */
+        .tool-cards {
+            display: flex;
+            gap: 2rem;
+            margin-top: 4rem;
+            overflow-x: auto;
+            padding-bottom: 2rem;
+            scrollbar-width: none;
+        }
+        
+        .tool-cards::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .tool-card {
+            min-width: 300px;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            color: white;
+        }
+        
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+        
+        .tool-card:hover h3,
+        .tool-card:hover p,
+        .tool-card:hover .tool-icon {
+            color: white;
+        }
+        
+        .tool-card:hover .btn-outline {
+            border-color: white;
+            color: white;
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            transition: color 0.3s ease;
+        }
+        
+        .tool-card p {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        
+        /* Feedback Popup */
+        .feedback-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 1.5rem;
+            max-width: 350px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .feedback-popup.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .feedback-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .feedback-popup-header h4 {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .close-popup {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .feedback-content {
+            color: var(--text);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feedback-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 6rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30 50a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm20 0a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm20 0a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" fill="%232ecc71" opacity="0.05"/></svg>');
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+        }
+        
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.4s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 5rem auto 0;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.6);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .social-links a {
+            color: rgba(255,255,255,0.7);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .social-links a:hover {
+            color: white;
+            background: var(--primary);
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .dashboard-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .dashboard-text h2,
+            .dashboard-text p {
+                text-align: center;
+            }
+            
+            .dashboard-image {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 6rem 1rem;
+                min-height: auto;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .features,
+            .dashboard,
+            .data-section {
+                padding: 4rem 1rem;
+            }
+            
+            .feedback-popup {
+                max-width: 280px;
+                right: 15px;
+                bottom: 15px;
+            }
+        }
+        
+        /* Ultra Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        .pulse {
+            animation: pulse 3s infinite ease-in-out;
+        }
+        
+        .float {
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        .wave {
+            animation: wave 4s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <a href="#" class="logo">
+                <i class="fas fa-leaf"></i>
+                Green<span>Drop</span>AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="\crop">Crop Advisory</a></li>
+                <li><a href="\predict">Drought Prediction</a></li>
+                <li><a href="\blog">Blogs</a></li>
+                <li><a href="\form">Feedback</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-agri-elements">
+            <div class="floating-element" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%232ecc71%27><path d=%27M12 2L4 12l8 10 8-10z%27/></svg>'); width: 50px; height: 50px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+            <div class="floating-element" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%232ecc71%27><path d=%27M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z%27/></svg>'); width: 30px; height: 30px; top: 20%; left: 80%; animation-delay: 2s;"></div>
+            <div class="floating-element" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27%232ecc71%27><path d=%27M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z%27/></svg>'); width: 40px; height: 40px; top: 70%; left: 15%; animation-delay: 4s;"></div>
+          </div>
+          
+        <div class="hero-content">
+            <h1>Revolutionizing Agriculture with AI-Powered Insights</h1>
+            <p>GreenDropAI combines cutting-edge technology with agricultural expertise to deliver personalized recommendations for your farming needs.</p>
+            <div class="hero-buttons">
+                <a href="\crop" class="btn btn-primary pulse">Get Crop Advice</a>
+                <a href="\predict" class="btn btn-outline float">Drought Analysis</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="section-header">
+            <h2>Our Comprehensive Advisory Services</h2>
+            <p>Powered by machine learning and agricultural science to maximize your yields and minimize risks</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h3>Smart Crop Prediction</h3>
+                <p>Our AI analyzes soil conditions, weather patterns, and historical data to recommend the most suitable crops for your specific district and farm conditions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cloud-rain"></i>
+                </div>
+                <h3>Rainfall Forecasting</h3>
+                <p>Accurate rainfall predictions for your region with seasonal outlooks to help plan your agricultural activities and irrigation needs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3>5-Year Drought Forecast</h3>
+                <p>Advanced algorithms forecast drought conditions for the next 5 years at district level, allowing you to prepare long-term mitigation strategies.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <h3>Precision Irrigation</h3>
+                <p>Get optimized watering schedules based on real-time soil moisture data and weather forecasts to conserve water while maximizing yield.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Yield Optimization</h3>
+                <p>Data-driven recommendations to maximize your harvest potential based on historical and current growing conditions for your district.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3>District-Specific Alerts</h3>
+                <p>Personalized alerts for your district about potential pest outbreaks, diseases, and extreme weather events based on your crop selection.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+   
+    <!-- Data Section -->
+    <section class="data-section">
+        <div class="section-header">
+            <h2>Your District's Agricultural Statistics</h2>
+            <p>Real-time data and predictive analytics tailored to your specific location</p>
+        </div>
+        
+        <div class="data-cards">
+            <div class="data-card">
+                <h3>Soil Health Index</h3>
+                <div class="data-value">84%</div>
+                <div class="data-change positive">
+                    <i class="fas fa-arrow-up"></i> 2% from last month
+                </div>
+            </div>
+            <div class="data-card">
+                <h3>Water Availability</h3>
+                <div class="data-value">76%</div>
+                <div class="data-change positive">
+                    <i class="fas fa-arrow-up"></i> 5% improvement
+                </div>
+            </div>
+            <div class="data-card">
+                <h3>Crop Health Score</h3>
+                <div class="data-value">92%</div>
+                <div class="data-change negative">
+                    <i class="fas fa-arrow-down"></i> 3% from last week
+                </div>
+            </div>
+            <div class="data-card">
+                <h3>Yield Forecast</h3>
+                <div class="data-value">18.2T/ha</div>
+                <div class="data-change positive">
+                    <i class="fas fa-arrow-up"></i> 1.5T over average
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3>5-Year Drought Risk Forecast</h3>
+                <div class="chart-tabs">
+                    <div class="chart-tab active">Your District</div>
+                    <div class="chart-tab">State Trend</div>
+                    <div class="chart-tab">National Forecast</div>
+                </div>
+            </div>
+            <canvas id="droughtChart"></canvas>
+        </div>
+
+        <div class="tool-cards">
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h3>Crop Prediction Tool</h3>
+                <p>Get AI-powered recommendations for crop selection based on your district's soil, weather, and market conditions.</p>
+                <a href="/crop" class="btn btn-outline">Access Tool</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3>Drought Predictor</h3>
+                <p>Advanced forecasting system that predicts water stress conditions for your district up to 5 years in advance.</p>
+                <a href="/drought" class="btn btn-outline">Run Analysis</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-cloud-rain"></i>
+                </div>
+                <h3>Rainfall Analyzer</h3>
+                <p>Detailed rainfall analysis and forecasts for your district with planting recommendations.</p>
+                <a href="#" class="btn btn-outline">Check Forecast</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3>District Dashboard</h3>
+                <p>Comprehensive view of all agricultural metrics and recommendations for your specific district.</p>
+                <a href="#" class="btn btn-outline">View Dashboard</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blogs Section -->
+    <section class="features" id="blogs" style="background: #f8fafc;">
+        <div class="section-header">
+            <h2>Latest Agricultural Insights</h2>
+            <p>Learn from our experts and stay updated with modern farming techniques</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon" style="background: #e3f2fd; color: #1976d2;">
+                    <i class="fas fa-water"></i>
+                </div>
+                <h3>Water Conservation in Drought-Prone Districts</h3>
+                <p>Discover innovative irrigation methods that can reduce your water usage by up to 40% without compromising yield, specifically tailored for drought-prone regions.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1.5rem;">Read Article</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: #e8f5e9; color: #388e3c;">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Crop Rotation Strategies by District</h3>
+                <p>How to implement effective crop rotation based on your district's specific soil conditions and climate patterns for sustainable farming.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1.5rem;">Read Article</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: #fff3e0; color: #fb8c00;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>AI for Smallholder Farmers</h3>
+                <p>How artificial intelligence is transforming agriculture at the district level, making advanced tools accessible to small farmers.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1.5rem;">Read Article</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: #f3e5f5; color: #8e24aa;">
+                    <i class="fas fa-cloud-sun-rain"></i>
+                </div>
+                <h3>Understanding Monsoon Patterns</h3>
+                <p>A district-level analysis of changing monsoon patterns and how farmers can adapt their practices for optimal yields.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1.5rem;">Read Article</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: #e0f7fa; color: #00acc1;">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Market Trends Analysis</h3>
+                <p>District-specific market trends for agricultural produce and how to plan your crops for maximum profitability.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1.5rem;">Read Article</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: #fff8e1; color: #ffa000;">
+                    <i class="fas fa-tractor"></i>
+                </div>
+                <h3>Precision Agriculture Tools</h3>
+                <p>An overview of affordable precision agriculture technologies suitable for farmers in different districts.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1.5rem;">Read Article</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Popup -->
+    <div class="feedback-popup" id="feedbackPopup">
+        <div class="feedback-popup-header">
+            <h4>Recent Feedback</h4>
+            <button class="close-popup" id="closePopup">&times;</button>
+        </div>
+        <div class="feedback-content" id="feedbackContent">
+            "The crop prediction tool helped me select the perfect crops for my district's conditions this season."
+        </div>
+        <div class="feedback-meta">
+            <span id="feedbackUser">Ramesh K., Farmer</span>
+            <span id="feedbackLocation">Nalgonda District</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>GreenDropAI</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Technology</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Solutions</h3>
+                <ul class="footer-links">
+                    <li><a href="/crop">Crop Prediction</a></li>
+                    <li><a href="/drought">Drought Forecast</a></li>
+                    <li><a href="#">Rainfall Analysis</a></li>
+                    <li><a href="#">District Dashboard</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#blogs">Blog</a></li>
+                    <li><a href="#">Research Papers</a></li>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">Help Center</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="/feedback">Give Feedback</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                    <li><a href="#">Partner With Us</a></li>
+                    <li><a href="#">Community Forum</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2023 GreenDropAI. All rights reserved.</div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize particle background
+        function initParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 30 : 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 10;
+                const duration = 10 + Math.random() * 20;
+                const opacity = 0.2 + Math.random() * 0.3;
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.opacity = opacity;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize charts
+        function initCharts() {
+            // Drought Chart
+            const droughtCtx = document.getElementById('droughtChart').getContext('2d');
+            const years = ['2023', '2024', '2025', '2026', '2027'];
+
+            new Chart(droughtCtx, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Drought Risk (%)',
+                        data: [35, 42, 55, 60, 58],
+                        backgroundColor: [
+                            'rgba(46, 204, 113, 0.7)',
+                            'rgba(243, 156, 18, 0.7)',
+                            'rgba(231, 76, 60, 0.7)',
+                            'rgba(231, 76, 60, 0.7)',
+                            'rgba(243, 156, 18, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(46, 204, 113, 1)',
+                            'rgba(243, 156, 18, 1)',
+                            'rgba(231, 76, 60, 1)',
+                            'rgba(231, 76, 60, 1)',
+                            'rgba(243, 156, 18, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Drought Risk: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Risk Percentage'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Header scroll effect
+        function initHeaderScroll() {
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Feedback popup functionality
+        function initFeedbackPopup() {
+            const popup = document.getElementById('feedbackPopup');
+            const closeBtn = document.getElementById('closePopup');
+            
+            // Sample feedback data (in a real app, this would come from your backend)
+            const feedbacks = [
+                {
+                    content: "The crop prediction tool helped me select the perfect crops for my district's conditions this season.",
+                    user: "Ramesh K., Farmer",
+                    location: "Nalgonda District"
+                },
+                {
+                    content: "Drought prediction for our district was accurate and helped us prepare irrigation plans in advance.",
+                    user: "Sunita M., Farm Owner",
+                    location: "Anantapur District"
+                },
+                {
+                    content: "The rainfall forecasts are much more accurate than other services we've used before.",
+                    user: "Agricultural Cooperative",
+                    location: "Vidarbha Region"
+                },
+                {
+                    content: "Using the district dashboard helped us increase our yields by 15% this year.",
+                    user: "Vijay P., Agri Entrepreneur",
+                    location: "Sangli District"
+                }
+            ];
+            
+            // Show popup after 5 seconds
+            setTimeout(() => {
+                popup.classList.add('show');
+                
+                // Rotate through feedback messages every 8 seconds
+                let currentFeedback = 0;
+                setInterval(() => {
+                    currentFeedback = (currentFeedback + 1) % feedbacks.length;
+                    document.getElementById('feedbackContent').textContent = feedbacks[currentFeedback].content;
+                    document.getElementById('feedbackUser').textContent = feedbacks[currentFeedback].user;
+                    document.getElementById('feedbackLocation').textContent = feedbacks[currentFeedback].location;
+                    
+                    // Add animation
+                    popup.style.opacity = 0;
+                    setTimeout(() => {
+                        popup.style.opacity = 1;
+                    }, 500);
+                }, 8000);
+            }, 5000);
+            
+            // Close button functionality
+            closeBtn.addEventListener('click', () => {
+                popup.classList.remove('show');
+            });
+            
+            // Click anywhere outside to close
+            document.addEventListener('click', (e) => {
+                if (!popup.contains(e.target) && e.target.id !== 'feedback') {
+                    popup.classList.remove('show');
+                }
+            });
+        }
+
+        // Initialize animations with GSAP
+        function initAnimations() {
+            // Hero section animations
+            gsap.to('.hero h1', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.3,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.hero p', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.6,
+                ease: 'power3.out'
+            });
+
+            gsap.to('.hero-buttons', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.9,
+                ease: 'power3.out'
+            });
+
+            // Features section animations
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: 'top 80%',
+                    onEnter: () => {
+                        gsap.to(card, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            delay: i * 0.1,
+                            ease: 'back.out(1)'
+                        });
+                    }
+                });
+            });
+
+            // Dashboard section animations
+            ScrollTrigger.create({
+                trigger: '.dashboard',
+                start: 'top 70%',
+                onEnter: () => {
+                    gsap.to('.dashboard-text h2', {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        ease: 'power3.out'
+                    });
+                    
+                    gsap.to('.dashboard-text p', {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        delay: 0.2,
+                        ease: 'power3.out'
+                    });
+                    
+                    gsap.to('.dashboard-image', {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1,
+                        ease: 'power3.out'
+                    });
+                }
+            });
+
+            // Data section animations
+            gsap.utils.toArray('.data-card').forEach((card, i) => {
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: 'top 80%',
+                    onEnter: () => {
+                        gsap.to(card, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            delay: i * 0.1,
+                            ease: 'back.out(1)'
+                        });
+                    }
+                });
+            });
+
+            ScrollTrigger.create({
+                trigger: '.chart-container',
+                start: 'top 80%',
+                onEnter: () => {
+                    gsap.to('.chart-container', {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: 'power3.out'
+                    });
+                }
+            });
+
+            gsap.utils.toArray('.tool-card').forEach((card, i) => {
+                ScrollTrigger.create({
+                    trigger: card,
+                    start: 'top 80%',
+                    onEnter: () => {
+                        gsap.to(card, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.8,
+                            delay: i * 0.15,
+                            ease: 'back.out(1)'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            initParticles();
+            initCharts();
+            initHeaderScroll();
+            initSmoothScrolling();
+            initAnimations();
+            initFeedbackPopup();
+
+            // Tab switching for chart tabs
+            document.querySelectorAll('.chart-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    // Here you would update the chart data based on the selected tab
+                    // For demo purposes, we're just changing the active tab
+                });
+            });
+
+            // Button ripple effect
+            document.querySelectorAll('.btn-primary').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Ripple effect is handled by CSS
+                });
+            });
+
+            // Floating elements animation
+            function animateFloatingElements() {
+                gsap.to('.floating-element', {
+                    y: '-=20',
+                    rotation: '+=5',
+                    duration: 10,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: 'sine.inOut'
+                });
+            }
+            animateFloatingElements();
+
+            // Ultra animation: Pulsing logo
+            gsap.to('.logo', {
+                scale: 1.05,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+
+            // Ultra animation: Waving plants in features
+            gsap.to('.feature-icon', {
+                rotation: 5,
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+
+            // Ultra animation: Floating tool cards
+            gsap.to('.tool-card', {
+                y: '-=10',
+                duration: 4,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                stagger: 0.2
+            });
+        });
+    </script>
+</body>
+</html>
